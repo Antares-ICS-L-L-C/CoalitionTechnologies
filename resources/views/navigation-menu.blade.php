@@ -18,15 +18,25 @@
                 </div>
             </div>
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log
-                        in</a>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" x-data>
+                        @csrf
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                        <x-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                            {{ __('Log Out') }}
+                        </x-nav-link>
+                    </form>
+                @else
+                    @if (Route::has('login'))
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log
+                            in</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}"
+                                class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                        @endif
                     @endif
-                @endif
+                @endauth
             </div>
 
             <!-- Hamburger -->

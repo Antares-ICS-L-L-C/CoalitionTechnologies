@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +20,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+        Route::post('/dashboard/project', 'createProject')->name('create.project');
+        Route::post('/dashboard/{project_id}', 'editProject')->name('edit.project');
+
+        Route::post('/dashboard', 'createTask')->name('create.task');
+        Route::post('/dashboard/{task_id}', 'editTask')->name('edit.task');
+    });
 });
